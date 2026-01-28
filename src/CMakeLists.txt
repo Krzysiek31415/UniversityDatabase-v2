@@ -1,16 +1,12 @@
-add_library(UniversityCore)
+add_library(UniversityCore INTERFACE)
 
-target_sources(UniversityCore PRIVATE
-    domain/Student.cpp
-)
-
-target_include_directories(UniversityCore PUBLIC
+target_include_directories(UniversityCore INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_compile_features(UniversityCore PUBLIC cxx_std_20)
+target_compile_features(UniversityCore INTERFACE cxx_std_20)
 
-target_compile_options(UniversityCore PRIVATE
+target_compile_options(UniversityCore INTERFACE
     -Wall
     -Wextra
     -Wpedantic
