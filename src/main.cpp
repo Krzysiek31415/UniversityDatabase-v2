@@ -12,10 +12,8 @@ int main(){
     std::cout << p.name() << " " << p.PESEL() << std::endl;
     std::cout << p.getRole().front()->roleName() << std::endl;
 
-    for (const auto& role : p.getRole()) {
-        if (auto indexed = dynamic_cast<HasIndexNumber*>(role.get())) {
-            std::cout << "Index number: " << indexed->indexNumber() << "\n";
-        }
+    if(auto role = p.getTrait<StudentRole>()){
+        std::cout << role->indexNumber() << std::endl;
     }
 
     Person d{"Adam", "78041906499"};
@@ -23,10 +21,8 @@ int main(){
     std::cout << d.name() << " " << p.PESEL() << std::endl;
     std::cout << d.getRole().front()->roleName() << std::endl;
 
-    for (const auto& role : d.getRole()) {
-        if (auto salary = dynamic_cast<HasSalary*>(role.get())) {
-            std::cout << "Salary: " << salary->salary() << "\n";
-        }
+    if( auto role = d.getTrait<HasSalary>()){
+        std::cout << role->salary() << std::endl;
     }
     
     return 0;

@@ -20,6 +20,16 @@ public:
     }
     void removeRole(std::shared_ptr<IRole> role);
 
+    template<class T>
+    std::shared_ptr<T> getTrait() const {
+        for(const auto& trait : roles_){
+            if(auto result = dynamic_pointer_cast<T>(trait)){
+                return result;
+            }
+        }
+        return nullptr;
+    }
+
 private:
     std::string name_;
     std::string PESEL_;
