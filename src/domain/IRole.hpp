@@ -22,3 +22,17 @@ class HasIndexNumber
     protected:
         std::string indexNumber_;
 };
+
+class HasSalary
+{
+    public:
+        explicit HasSalary(double salary)
+            : salary_(salary) {}
+    
+        double salary() const {
+            return salary_;
+        }
+    
+    protected:
+        double salary_;
+};
