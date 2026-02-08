@@ -2,6 +2,7 @@
 #include "domain/Person.hpp"
 #include "domain/StudentRole.hpp"
 #include "domain/EmployeeRole.hpp"
+#include "repository/infrastructure/InMemoryPersonRepository.hpp"
 #include <memory>
 
 
@@ -24,6 +25,23 @@ int main(){
     if( auto role = d.getTrait<HasSalary>()){
         std::cout << role->salary() << std::endl;
     }
+
+    InMemoryPersonRepository repo;
+
+    auto p1 = std::make_shared<Person>("Dave", "95281906877");
+    repo.add(p1);
+    auto p2 = std::make_shared<Person>("Hank", "123456789");
+    p2->addRole(std::make_shared<StudentRole>("211997"));
+    repo.add(p2);
+    auto all = repo.getAll();
+
+    for(const auto& elem: all){
+        std::cout << elem->name() << std::endl;
+        if(auto role = elem->getTrait<StudentRole>()){
+            std::cout << role->indexNumber() << std::endl;
+        }
+    }
+
     
     return 0;
 }
