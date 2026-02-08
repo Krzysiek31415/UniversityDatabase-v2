@@ -7,6 +7,6 @@ class Person;
 class IPersonRepository{
 public:
     virtual ~IPersonRepository() = default;
-    virtual void add(std::shared_ptr<Person> person) = 0;
-    virtual std::vector<std::shared_ptr<Person>> getAll() const = 0; 
+    virtual void add(std::unique_ptr<Person> person) = 0;
+    virtual std::vector<Person*> getAll() const = 0; 
 };

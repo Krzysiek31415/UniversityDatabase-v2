@@ -14,14 +14,14 @@ TEST(PersonTest, StoresBasicData)
 TEST(PersonTest, addRoleIncreasesRoleCount_sanity)
 {
     Person person{"Tom", "97121004855"};
-    person.addRole(std::make_shared<StudentRole>("182696"));
+    person.addRole(std::move(std::make_unique<StudentRole>("182696")));
     EXPECT_EQ(person.getRole().size(), 1);
 }
 
 TEST(PersonTest, getStudentTraitReturnsStudentRole)
 {
     Person person{"Tom", "97121004855"};
-    person.addRole(std::make_shared<StudentRole>("182696"));
+    person.addRole(std::make_unique<StudentRole>("182696"));
 
     auto Role = person.getTrait<StudentRole>();
     ASSERT_NE(Role, nullptr);
@@ -31,7 +31,7 @@ TEST(PersonTest, getStudentTraitReturnsStudentRole)
 TEST(PersonTest, getEmployeeTraitReturnsEmployeeRole)
 {
     Person person{"Tom", "97121004855"};
-    person.addRole(std::make_shared<EmployeeRole>(19000));
+    person.addRole(std::make_unique<EmployeeRole>(19000));
 
     auto Role = person.getTrait<EmployeeRole>();
     ASSERT_NE(Role, nullptr);

@@ -12,18 +12,23 @@ public:
     {}
     const std::string& name() const { return name_; }
     const std::string& PESEL() const { return PESEL_; }
-    void addRole(std::shared_ptr<IRole> role){
+    void addRole(std::unique_ptr<IRole> role){
         roles_.push_back(std::move(role));
     }
-    std::vector<std::shared_ptr<IRole>>& getRole(){
-        return roles_;
+    std::vector<IRole*> getRole() const{
+        std::vector<IRole*> result;
+        result.reserve(roles_.size());
+        for(const auto& r: roles_){
+            result.push_back(r.get());
+        }
+        return result;
     }
-    void removeRole(std::shared_ptr<IRole> role);
+    //void removeRole(std::shared_ptr<IRole> role);
 
     template<class T>
-    std::shared_ptr<T> getTrait() const {
+    T* getTrait() const {
         for(const auto& trait : roles_){
-            if(auto result = dynamic_pointer_cast<T>(trait)){
+            if(auto result = dynamic_cast<T*>(trait.get())){
                 return result;
             }
         }
@@ -33,5 +38,5 @@ public:
 private:
     std::string name_;
     std::string PESEL_;
-    std::vector<std::shared_ptr<IRole>> roles_;
+    std::vector<std::unique_ptr<IRole>> roles_;
 };
