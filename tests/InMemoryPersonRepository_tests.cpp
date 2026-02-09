@@ -28,3 +28,23 @@ TEST(InMemoryPersonRepositoryTest, AddAndGetAllPersons){
     
     EXPECT_EQ(all[1]->name(), "Ralf");
 }
+
+TEST(InMemoryPersonRepositoryTest, RemovePersonByPESEL){
+    InMemoryPersonRepository repo; 
+    auto p1 = std::make_unique<Person>("Adam", "12");
+    auto p2 = std::make_unique<Person>("Ralf", "45");
+
+    repo.add(std::move(p1));
+    repo.add(std::move(p2));
+
+    auto all = repo.getAll();
+
+    ASSERT_EQ(all.size(), 2);
+    EXPECT_EQ(all[0]->name(), "Adam");
+    EXPECT_EQ(all[1]->name(), "Ralf");
+
+    repo.removeByPESEL("12");
+    all = repo.getAll();
+    ASSERT_EQ(all.size(), 1);
+    EXPECT_EQ(all[0]->name(), "Ralf");
+}

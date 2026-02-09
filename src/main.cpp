@@ -25,7 +25,6 @@ int main(){
     if( auto role = d.getTrait<HasSalary>()){
         std::cout << role->salary() << std::endl;
     }
-
     InMemoryPersonRepository repo;
 
     auto p1 = std::make_unique<Person>("Dave", "95281906877");
@@ -42,6 +41,5 @@ int main(){
         }
     }
 
-    
     return 0;
 }
