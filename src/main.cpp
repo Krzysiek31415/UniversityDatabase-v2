@@ -5,6 +5,7 @@
 #include "repository/infrastructure/InMemoryPersonRepository.hpp"
 #include <memory>
 
+void RepoTest();
 
 int main(){
 
@@ -18,6 +19,7 @@ int main(){
     }
 
     Person d{"Adam", "78041906499"};
+    d.addRole(std::make_unique<StudentRole>("9876"));
     d.addRole(std::make_unique<EmployeeRole>(18000));
     std::cout << d.name() << " " << d.PESEL() << std::endl;
     std::cout << d.getRole().front()->roleName() << std::endl;
@@ -25,6 +27,22 @@ int main(){
     if( auto role = d.getTrait<HasSalary>()){
         std::cout << role->salary() << std::endl;
     }
+    
+    auto roles = d.getRole();
+    for(const auto& r: roles){
+        std::cout << r->roleName() << " ";
+    }
+    std::cout << std::endl;
+    d.removeRole<StudentRole>();
+    roles = d.getRole();
+    for(const auto& r: roles){
+        std::cout << r->roleName() << " ";
+    }
+    std::cout << std::endl;
+    return 0;
+}
+
+void RepoTest(){
     InMemoryPersonRepository repo;
 
     auto p1 = std::make_unique<Person>("Dave", "95281906877");
@@ -40,6 +58,4 @@ int main(){
             std::cout << role->indexNumber() << std::endl;
         }
     }
-
-    return 0;
 }

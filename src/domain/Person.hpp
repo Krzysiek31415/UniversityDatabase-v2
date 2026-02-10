@@ -2,8 +2,11 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "IRole.hpp"
+#include <typeinfo>
+#include <string>
 
 class Person
 {
@@ -15,6 +18,19 @@ public:
     void addRole(std::unique_ptr<IRole> role){
         roles_.push_back(std::move(role));
     }
+    template<class T>
+    void removeRole(){
+        roles_.erase(
+            std::remove_if(
+            roles_.begin(), 
+            roles_.end(), 
+            [](auto& role){
+                return dynamic_cast<T*>(role.get());
+            }
+            ),
+        roles_.end());
+    }
+
     std::vector<IRole*> getRole() const{
         std::vector<IRole*> result;
         result.reserve(roles_.size());
@@ -23,7 +39,6 @@ public:
         }
         return result;
     }
-    //void removeRole(std::shared_ptr<IRole> role);
 
     template<class T>
     T* getTrait() const {

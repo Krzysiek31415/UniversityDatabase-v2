@@ -46,3 +46,20 @@ TEST(PersonTest, GetTraitReturnsNullptrWhenMissing)
 }
 
 
+TEST(PersonTest, RemoveRole)
+{
+    Person d{"Adam", "78041906499"};
+    d.addRole(std::make_unique<StudentRole>("9876"));
+    d.addRole(std::make_unique<EmployeeRole>(18000));
+
+    auto roles = d.getRole();
+    ASSERT_EQ(roles.size(), 2);
+    EXPECT_EQ(roles[0]->roleName(), "Student");
+    EXPECT_EQ(roles[1]->roleName(), "Employee");
+    
+    d.removeRole<StudentRole>();
+    roles = d.getRole();
+    ASSERT_EQ(roles.size(), 1);
+    EXPECT_EQ(roles[0]->roleName(), "Employee");
+}
+
