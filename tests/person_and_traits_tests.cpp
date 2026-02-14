@@ -15,7 +15,7 @@ TEST(PersonTest, addRoleIncreasesRoleCount_sanity)
 {
     Person person{"Tom", "97121004855"};
     person.addRole(std::move(std::make_unique<StudentRole>("182696")));
-    EXPECT_EQ(person.getRole().size(), 1);
+    EXPECT_EQ(person.getRoles().size(), 1);
 }
 
 TEST(PersonTest, getStudentTraitReturnsStudentRole)
@@ -52,13 +52,13 @@ TEST(PersonTest, RemoveRole)
     d.addRole(std::make_unique<StudentRole>("9876"));
     d.addRole(std::make_unique<EmployeeRole>(18000));
 
-    auto roles = d.getRole();
+    auto roles = d.getRoles();
     ASSERT_EQ(roles.size(), 2);
     EXPECT_EQ(roles[0]->roleName(), "Student");
     EXPECT_EQ(roles[1]->roleName(), "Employee");
     
     d.removeRole<StudentRole>();
-    roles = d.getRole();
+    roles = d.getRoles();
     ASSERT_EQ(roles.size(), 1);
     EXPECT_EQ(roles[0]->roleName(), "Employee");
 }

@@ -31,7 +31,7 @@ public:
         roles_.end());
     }
 
-    std::vector<IRole*> getRole() const{
+    std::vector<IRole*> getRoles() const{
         std::vector<IRole*> result;
         result.reserve(roles_.size());
         for(const auto& r: roles_){
@@ -52,6 +52,8 @@ public:
 
 private:
     std::string name_;
-    std::string PESEL_;
+    //std::string surname_;
+    //std::string address_;
+    std::string PESEL_; 
     std::vector<std::unique_ptr<IRole>> roles_;
 };

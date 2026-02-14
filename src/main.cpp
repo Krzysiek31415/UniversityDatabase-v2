@@ -12,7 +12,7 @@ int main(){
     Person p{"Tom", "90031204388"};
     p.addRole(std::make_unique<StudentRole>("182696"));
     std::cout << p.name() << " " << p.PESEL() << std::endl;
-    std::cout << p.getRole().front()->roleName() << std::endl;
+    std::cout << p.getRoles().front()->roleName() << std::endl;
 
     if(auto role = p.getTrait<StudentRole>()){
         std::cout << role->indexNumber() << std::endl;
@@ -22,19 +22,19 @@ int main(){
     d.addRole(std::make_unique<StudentRole>("9876"));
     d.addRole(std::make_unique<EmployeeRole>(18000));
     std::cout << d.name() << " " << d.PESEL() << std::endl;
-    std::cout << d.getRole().front()->roleName() << std::endl;
+    std::cout << d.getRoles().front()->roleName() << std::endl;
 
     if( auto role = d.getTrait<HasSalary>()){
         std::cout << role->salary() << std::endl;
     }
     
-    auto roles = d.getRole();
+    auto roles = d.getRoles();
     for(const auto& r: roles){
         std::cout << r->roleName() << " ";
     }
     std::cout << std::endl;
     d.removeRole<StudentRole>();
-    roles = d.getRole();
+    roles = d.getRoles();
     for(const auto& r: roles){
         std::cout << r->roleName() << " ";
     }
