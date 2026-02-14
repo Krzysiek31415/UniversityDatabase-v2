@@ -9,7 +9,7 @@ void RepoTest();
 
 int main(){
 
-    Person p{"Tom", "90031204388"};
+    Person p{"Tom", "", "90031204388"};
     p.addRole(std::make_unique<StudentRole>("182696"));
     std::cout << p.name() << " " << p.PESEL() << std::endl;
     std::cout << p.getRoles().front()->roleName() << std::endl;
@@ -18,7 +18,7 @@ int main(){
         std::cout << role->indexNumber() << std::endl;
     }
 
-    Person d{"Adam", "78041906499"};
+    Person d{"Adam", "", "78041906499"};
     d.addRole(std::make_unique<StudentRole>("9876"));
     d.addRole(std::make_unique<EmployeeRole>(18000));
     std::cout << d.name() << " " << d.PESEL() << std::endl;
@@ -45,9 +45,9 @@ int main(){
 void RepoTest(){
     InMemoryPersonRepository repo;
 
-    auto p1 = std::make_unique<Person>("Dave", "95281906877");
+    auto p1 = std::make_unique<Person>("Dave", "", "95281906877");
     repo.add(std::move(p1));
-    auto p2 = std::make_unique<Person>("Hank", "123456789");
+    auto p2 = std::make_unique<Person>("Hank", "", "123456789");
     p2->addRole(std::make_unique<StudentRole>("211997"));
     repo.add(std::move(p2));
     auto all = repo.getAll();

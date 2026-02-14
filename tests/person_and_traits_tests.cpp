@@ -4,23 +4,25 @@
 #include "domain/EmployeeRole.hpp"
 #include <memory>
 
-TEST(PersonTest, StoresBasicData)
+class PersonTest: public ::testing::Test{
+protected:
+    Person person{"Tom", "Smith", "97121004855"};
+};
+
+TEST_F(PersonTest, StoresBasicData)
 {
-    Person person{"Tom", "97121004855"};
     EXPECT_EQ(person.name(), "Tom");
     EXPECT_EQ(person.PESEL(), "97121004855");
 }
 
-TEST(PersonTest, addRoleIncreasesRoleCount_sanity)
+TEST_F(PersonTest, addRoleIncreasesRoleCount_sanity)
 {
-    Person person{"Tom", "97121004855"};
     person.addRole(std::move(std::make_unique<StudentRole>("182696")));
     EXPECT_EQ(person.getRoles().size(), 1);
 }
 
-TEST(PersonTest, getStudentTraitReturnsStudentRole)
+TEST_F(PersonTest, getStudentTraitReturnsStudentRole)
 {
-    Person person{"Tom", "97121004855"};
     person.addRole(std::make_unique<StudentRole>("182696"));
 
     auto Role = person.getTrait<StudentRole>();
@@ -28,9 +30,8 @@ TEST(PersonTest, getStudentTraitReturnsStudentRole)
     EXPECT_EQ(Role->indexNumber(), "182696");
 }
 
-TEST(PersonTest, getEmployeeTraitReturnsEmployeeRole)
+TEST_F(PersonTest, getEmployeeTraitReturnsEmployeeRole)
 {
-    Person person{"Tom", "97121004855"};
     person.addRole(std::make_unique<EmployeeRole>(19000));
 
     auto Role = person.getTrait<EmployeeRole>();
@@ -38,27 +39,25 @@ TEST(PersonTest, getEmployeeTraitReturnsEmployeeRole)
     EXPECT_EQ(Role->salary(), 19000);
 }
 
-TEST(PersonTest, GetTraitReturnsNullptrWhenMissing) 
+TEST_F(PersonTest, GetTraitReturnsNullptrWhenMissing) 
 {
-    Person p{"Tom", "90031204388"};
-    auto indexNumber = p.getTrait<HasIndexNumber>();
+    auto indexNumber = person.getTrait<HasIndexNumber>();
     EXPECT_EQ(indexNumber, nullptr);
 }
 
 
-TEST(PersonTest, RemoveRole)
+TEST_F(PersonTest, RemoveRole)
 {
-    Person d{"Adam", "78041906499"};
-    d.addRole(std::make_unique<StudentRole>("9876"));
-    d.addRole(std::make_unique<EmployeeRole>(18000));
+    person.addRole(std::make_unique<StudentRole>("9876"));
+    person.addRole(std::make_unique<EmployeeRole>(18000));
 
-    auto roles = d.getRoles();
+    auto roles = person.getRoles();
     ASSERT_EQ(roles.size(), 2);
     EXPECT_EQ(roles[0]->roleName(), "Student");
     EXPECT_EQ(roles[1]->roleName(), "Employee");
     
-    d.removeRole<StudentRole>();
-    roles = d.getRoles();
+    person.removeRole<StudentRole>();
+    roles = person.getRoles();
     ASSERT_EQ(roles.size(), 1);
     EXPECT_EQ(roles[0]->roleName(), "Employee");
 }

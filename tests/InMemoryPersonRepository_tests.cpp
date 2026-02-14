@@ -9,11 +9,11 @@ TEST(InMemoryPersonRepositoryTest, AddAndGetAllPersons){
 
     InMemoryPersonRepository repo; 
 
-    auto person1 = std::make_unique<Person>("Adam", "123456789");
+    auto person1 = std::make_unique<Person>("Adam", "Smith", "123456789");
     person1->addRole(std::make_unique<StudentRole>("211345"));
     repo.add(std::move(person1));
 
-    auto person2 = std::make_unique<Person>("Ralf", "123456719");
+    auto person2 = std::make_unique<Person>("Ralf", "Smith", "123456719");
     person2->addRole(std::make_unique<EmployeeRole>(13000));
     repo.add(std::move(person2));
 
@@ -31,8 +31,8 @@ TEST(InMemoryPersonRepositoryTest, AddAndGetAllPersons){
 
 TEST(InMemoryPersonRepositoryTest, RemovePersonByPESEL){
     InMemoryPersonRepository repo; 
-    auto p1 = std::make_unique<Person>("Adam", "12");
-    auto p2 = std::make_unique<Person>("Ralf", "45");
+    auto p1 = std::make_unique<Person>("Adam", "Smith", "12");
+    auto p2 = std::make_unique<Person>("Ralf", "Smith", "45");
 
     repo.add(std::move(p1));
     repo.add(std::move(p2));
