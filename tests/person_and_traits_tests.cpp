@@ -12,6 +12,7 @@ protected:
 TEST_F(PersonTest, StoresBasicData)
 {
     EXPECT_EQ(person.name(), "Tom");
+    EXPECT_EQ(person.surname(), "Smith");
     EXPECT_EQ(person.PESEL(), "97121004855");
 }
 
