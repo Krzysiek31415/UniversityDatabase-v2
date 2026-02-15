@@ -1,12 +1,14 @@
-add_library(UniversityCore INTERFACE)
+add_library(UniversityCore STATIC 
+    domain/Person.cpp
+)
 
-target_include_directories(UniversityCore INTERFACE
+target_include_directories(UniversityCore PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_compile_features(UniversityCore INTERFACE cxx_std_20)
+target_compile_features(UniversityCore PUBLIC cxx_std_20)
 
-target_compile_options(UniversityCore INTERFACE
+target_compile_options(UniversityCore PUBLIC
     -Wall
     -Wextra
     -Wpedantic
