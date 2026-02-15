@@ -72,3 +72,10 @@ TEST_F(PersonTest, CanSetAddress){
     EXPECT_EQ(person.address(), "Breda, Ploegstraat 50");
 }
 
+TEST_F(PersonTest, GenderIsUnknownByDefault){
+    EXPECT_EQ(person.gender(), Gender::Unknown);
+}
+TEST_F(PersonTest, CanSetGender){
+    person.setGender(Gender::Male);
+    EXPECT_EQ(person.gender(), Gender::Male);
+}
