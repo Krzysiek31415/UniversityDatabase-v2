@@ -63,3 +63,12 @@ TEST_F(PersonTest, RemoveRole)
     EXPECT_EQ(roles[0]->roleName(), "Employee");
 }
 
+TEST_F(PersonTest, HasNoAddressByDefault){
+    EXPECT_FALSE(person.address());
+}
+TEST_F(PersonTest, CanSetAddress){
+    person.setAddress("Breda, Ploegstraat 50");
+    ASSERT_TRUE(person.address());
+    EXPECT_EQ(person.address(), "Breda, Ploegstraat 50");
+}
+
