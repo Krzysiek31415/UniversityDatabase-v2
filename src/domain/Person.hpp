@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <optional>
 
 #include "IRole.hpp"
 #include <typeinfo>
@@ -17,10 +18,18 @@ public:
         PESEL_{std::move(PESEL)}
     {}
     const std::string& name() const { return name_; }
+    const std::string& surname() const { return surname_; }
     const std::string& PESEL() const { return PESEL_; }
     void addRole(std::unique_ptr<IRole> role){
         roles_.push_back(std::move(role));
     }
+    void setAddress(const std::string& address){
+        address_ = std::move(address);
+    }
+    const std::optional<std::string> address() const {
+        return address_;
+    }
+
     template<class T>
     void removeRole(){
         roles_.erase(
@@ -56,7 +65,7 @@ public:
 private:
     std::string name_;
     std::string surname_;
-    //std::string address_;
+    std::optional<std::string> address_;
     std::string PESEL_; 
     std::vector<std::unique_ptr<IRole>> roles_;
 };
