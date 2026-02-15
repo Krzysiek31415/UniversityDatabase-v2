@@ -3,6 +3,9 @@
 #include "domain/StudentRole.hpp"
 #include "domain/EmployeeRole.hpp"
 #include "repository/infrastructure/InMemoryPersonRepository.hpp"
+#include "ui/ConsoleView.hpp"
+#include "ui/PersonFormatter.hpp"
+
 #include <memory>
 
 void RepoTest();
@@ -39,15 +42,16 @@ int main(){
         std::cout << r->roleName() << " ";
     }
     std::cout << std::endl;
+    RepoTest();
     return 0;
 }
 
 void RepoTest(){
     InMemoryPersonRepository repo;
 
-    auto p1 = std::make_unique<Person>("Dave", "", "95281906877");
+    auto p1 = std::make_unique<Person>("Dave", "Adams", "95281906877");
     repo.add(std::move(p1));
-    auto p2 = std::make_unique<Person>("Hank", "", "123456789");
+    auto p2 = std::make_unique<Person>("Hank", "Moon", "123456789");
     p2->addRole(std::make_unique<StudentRole>("211997"));
     repo.add(std::move(p2));
     auto all = repo.getAll();
@@ -58,4 +62,8 @@ void RepoTest(){
             std::cout << role->indexNumber() << std::endl;
         }
     }
+
+    ConsoleView console;
+    console.printPersons(repo.getAll());
+
 }

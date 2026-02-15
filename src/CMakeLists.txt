@@ -1,5 +1,7 @@
 add_library(UniversityCore STATIC 
     domain/Person.cpp
+    ui/PersonFormatter.cpp
+    ui/ConsoleView.cpp
 )
 
 target_include_directories(UniversityCore PUBLIC
