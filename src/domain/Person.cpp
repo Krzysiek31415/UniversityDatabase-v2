@@ -31,4 +31,11 @@ std::vector<IRole*> Person::getRoles() const{
     return result;
 }
 
+void Person::setGender(Gender gender){
+    gender_ = gender;
+}
+Gender Person::gender() const{
+    return gender_;
+}
+
 

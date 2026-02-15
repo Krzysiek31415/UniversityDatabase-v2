@@ -4,10 +4,16 @@
 #include <memory>
 #include <algorithm>
 #include <optional>
-
 #include "IRole.hpp"
 #include <typeinfo>
 #include <string>
+
+enum class Gender{
+    Male,
+    Female,
+    Unknown
+};
+
 
 class Person
 {
@@ -19,7 +25,8 @@ public:
     void addRole(std::unique_ptr<IRole> role);
     void setAddress(const std::string& address);
     const std::optional<std::string> address() const;
-
+    void setGender(const Gender gender);
+    Gender gender() const;
     template<class T>
     void removeRole(){
         roles_.erase(
@@ -50,5 +57,6 @@ private:
     std::string surname_;
     std::optional<std::string> address_;
     std::string PESEL_; 
+    Gender gender_ = Gender::Unknown;
     std::vector<std::unique_ptr<IRole>> roles_;
 };
