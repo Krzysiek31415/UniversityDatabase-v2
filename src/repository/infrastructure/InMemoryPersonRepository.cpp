@@ -30,3 +30,14 @@ void InMemoryPersonRepository::removeByPESEL(const std::string& PESEL) {
     );  
 }
 
+Person* InMemoryPersonRepository::findByPESEL(const std::string& pesel) const {
+    auto result = std::find_if(persons_.begin(), persons_.end(), [&pesel](const auto& person){
+        return pesel == person->PESEL();
+    });
+    if (result == persons_.end()) {
+        return nullptr;
+    }
+    return result->get();
+}
+
+
