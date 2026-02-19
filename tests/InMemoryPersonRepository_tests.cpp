@@ -29,22 +29,34 @@ TEST(InMemoryPersonRepositoryTest, AddAndGetAllPersons){
     EXPECT_EQ(all[1]->name(), "Ralf");
 }
 
-TEST(InMemoryPersonRepositoryTest, RemovePersonByPESEL){
+class InMemoryPersonRepositoryTestF: public ::testing::Test{
+protected:
     InMemoryPersonRepository repo; 
-    auto p1 = std::make_unique<Person>("Adam", "Smith", "12");
-    auto p2 = std::make_unique<Person>("Ralf", "Smith", "45");
+    void SetUp() override{
+        auto p1 = std::make_unique<Person>("Adam", "Smith", "98031715344");
+        auto p2 = std::make_unique<Person>("Ralf", "Smith", "88032715314");
+        repo.add(std::move(p1));
+        repo.add(std::move(p2));
+    }
+};
 
-    repo.add(std::move(p1));
-    repo.add(std::move(p2));
-
+TEST_F(InMemoryPersonRepositoryTestF, RemovePersonByPESEL){
     auto all = repo.getAll();
 
     ASSERT_EQ(all.size(), 2);
     EXPECT_EQ(all[0]->name(), "Adam");
     EXPECT_EQ(all[1]->name(), "Ralf");
 
-    repo.removeByPESEL("12");
+    repo.removeByPESEL("98031715344");
     all = repo.getAll();
     ASSERT_EQ(all.size(), 1);
     EXPECT_EQ(all[0]->name(), "Ralf");
+}
+
+TEST_F(InMemoryPersonRepositoryTestF, FindPersonByPESEL){
+    auto* person = repo.findByPESEL("88032715314");
+
+    ASSERT_NE(person, nullptr);
+    EXPECT_EQ(person->name(), "Ralf");
+    EXPECT_EQ(person->PESEL(), "88032715314");
 }
