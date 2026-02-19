@@ -3,6 +3,7 @@
 #include "domain/StudentRole.hpp"
 #include "domain/EmployeeRole.hpp"
 #include "repository/infrastructure/InMemoryPersonRepository.hpp"
+#include "repository/interfaces/IPersonRepository.hpp"
 #include "ui/ConsoleView.hpp"
 #include "ui/PersonFormatter.hpp"
 

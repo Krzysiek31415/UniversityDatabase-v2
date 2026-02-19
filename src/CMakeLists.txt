@@ -2,6 +2,7 @@ add_library(UniversityCore STATIC
     domain/Person.cpp
     ui/PersonFormatter.cpp
     ui/ConsoleView.cpp
+    repository/infrastructure/InMemoryPersonRepository.cpp
 )
 
 target_include_directories(UniversityCore PUBLIC
