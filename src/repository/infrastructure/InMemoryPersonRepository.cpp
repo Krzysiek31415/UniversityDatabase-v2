@@ -27,6 +27,6 @@ void InMemoryPersonRepository::removeByPESEL(const std::string& PESEL) {
             return person->PESEL() == PESEL;
         }),
         persons_.end()
-    );
+    );  
 }
 

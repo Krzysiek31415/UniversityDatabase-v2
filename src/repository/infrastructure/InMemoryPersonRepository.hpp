@@ -9,5 +9,5 @@ public:
     std::vector<const Person*> getAll() const override;
     void removeByPESEL(const std::string& PESEL) override;
 private:
-    std::vector<std::unique_ptr<Person>> persons_;
+    std::vector<std::unique_ptr<Person>> persons_; 
 };
