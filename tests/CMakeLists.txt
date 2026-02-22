@@ -12,6 +12,7 @@ add_executable(UniversityTests
     person_and_traits_tests.cpp
     InMemoryPersonRepository_tests.cpp
     PersonFormatterTest.cpp
+    PersonQueryServiceTests.cpp
 )
 
 target_link_libraries(UniversityTests PRIVATE
