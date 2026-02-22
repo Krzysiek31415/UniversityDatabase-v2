@@ -30,3 +30,14 @@ std::vector<const Person*> PersonQueryService::sortByPESEL(SortOrder order) cons
     
 }
 
+std::vector<const Person*> PersonQueryService::sortByName(SortOrder order) const{
+    if(order == SortOrder::Asc){
+        return sortBy([](const Person* lhs,  const Person* rhs){
+            return lhs->surname() < rhs->surname();
+        });
+    }
+    return sortBy([](const Person* lhs,  const Person* rhs){
+        return lhs->surname() > rhs->surname();
+    });  
+}
+
