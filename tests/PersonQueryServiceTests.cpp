@@ -15,8 +15,8 @@ class PersonQueryServiceTest: public ::testing::Test{
 
         void SetUp() override{
             auto p1 = std::make_unique<Person>("Adam", "Smith", "98031715344");
-            auto p2 = std::make_unique<Person>("Ralf", "Smith", "78032715494");
-            auto p3 = std::make_unique<Person>("Ralf", "Smith", "88032715314");
+            auto p2 = std::make_unique<Person>("Ralf", "Adams", "78032715494");
+            auto p3 = std::make_unique<Person>("John", "Bacon", "88032715314");
             
             repo.add(std::move(p1));
             repo.add(std::move(p2));
@@ -42,4 +42,22 @@ TEST_F(PersonQueryServiceTest, CanSortDescendingByPESEL){
     EXPECT_EQ(result[0]->PESEL(), "98031715344");
     EXPECT_EQ(result[1]->PESEL(), "88032715314");
     EXPECT_EQ(result[2]->PESEL(), "78032715494");
+}
+
+TEST_F(PersonQueryServiceTest, CanSortAscendingByLastName){
+    auto result = service->sortByName(SortOrder::Asc);
+    ASSERT_EQ(result.size(), 3);
+
+    EXPECT_EQ(result[0]->surname(), "Adams");
+    EXPECT_EQ(result[1]->surname(), "Bacon");
+    EXPECT_EQ(result[2]->surname(), "Smith");
+}
+
+TEST_F(PersonQueryServiceTest, CanSortDescendingByLastName){
+    auto result = service->sortByName(SortOrder::Desc);
+    ASSERT_EQ(result.size(), 3);
+
+    EXPECT_EQ(result[0]->surname(), "Smith");
+    EXPECT_EQ(result[1]->surname(), "Bacon");
+    EXPECT_EQ(result[2]->surname(), "Adams");
 }
