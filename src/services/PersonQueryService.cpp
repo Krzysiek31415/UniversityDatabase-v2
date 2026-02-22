@@ -1,6 +1,7 @@
 #include "PersonQueryService.hpp"
 #include <algorithm>
 #include <functional>
+#include <limits>
 
 #include "../domain/Person.hpp"
 
@@ -40,4 +41,20 @@ std::vector<const Person*> PersonQueryService::sortByName(SortOrder order) const
         return lhs->surname() > rhs->surname();
     });  
 }
+
+std::vector<const Person*> PersonQueryService::sortBySalary(SortOrder order) const{
+    if(order == SortOrder::Asc){
+        return sortBy([](const Person* lhs,  const Person* rhs){
+            double a = lhs->salary().value_or(std::numeric_limits<double>::max());
+            double b = rhs->salary().value_or(std::numeric_limits<double>::max());
+            return a < b;
+        });
+    }
+    return sortBy([](const Person* lhs,  const Person* rhs){
+            double a = lhs->salary().value_or(std::numeric_limits<double>::lowest());
+            double b = rhs->salary().value_or(std::numeric_limits<double>::lowest());
+            return a > b;
+    }); 
+}
+
 

@@ -38,4 +38,10 @@ Gender Person::gender() const{
     return gender_;
 }
 
+std::optional<double> Person::salary() const {
+    if (auto role = getTrait<HasSalary>())
+        return role->salary();
+    return std::nullopt;
+}
+
 

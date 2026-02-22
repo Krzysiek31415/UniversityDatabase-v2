@@ -22,6 +22,7 @@ public:
     const std::string& name() const;
     const std::string& surname() const; 
     const std::string& PESEL() const;
+    std::optional<double> salary() const;
     void addRole(std::unique_ptr<IRole> role);
     void setAddress(const std::string& address);
     const std::optional<std::string> address() const;
