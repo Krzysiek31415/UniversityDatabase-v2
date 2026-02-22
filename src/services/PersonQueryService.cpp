@@ -1,14 +1,32 @@
 #include "PersonQueryService.hpp"
 #include <algorithm>
+#include <functional>
+
+#include "../domain/Person.hpp"
 
 
-explicit PersonQueryService::PersonQueryService(const IPersonRepository& repo)
+PersonQueryService::PersonQueryService(const IPersonRepository& repo)
 : repo_{repo}
 {} 
 
-Person* PersonQueryService::findByPESEL(const std::string& pesel) const{
-    Person* result;
-    result = std::find_if(repo_.begin(), repo.end(), [&pesel](Person* person){
-        return pesel == person->PESEL();
-    });
+std::vector<const Person*> PersonQueryService::sortBy(
+    std::function<bool(const Person*, const Person*)> comparator) const {
+
+    auto result = repo_.getAll();
+    std::sort(result.begin(), result.end(), comparator);
+
+    return result;
 }
+
+std::vector<const Person*> PersonQueryService::sortByPESEL(SortOrder order) const{
+    if(order == SortOrder::Asc){
+        return sortBy([](const Person* lhs,  const Person* rhs){
+            return lhs->PESEL() < rhs->PESEL();
+        });
+    }
+    return sortBy([](const Person* lhs,  const Person* rhs){
+        return lhs->PESEL() > rhs->PESEL();
+    });
+    
+}
+

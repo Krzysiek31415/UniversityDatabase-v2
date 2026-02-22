@@ -2,15 +2,24 @@
 
 #include <vector>
 #include <string>
+#include <functional>
+
+#include "../repository/interfaces/IPersonRepository.hpp"
 
 class Person;
-class IPersonRepository;
+
+enum class SortOrder {
+    Asc,
+    Desc
+};
 
 class PersonQueryService{
 public:
     explicit PersonQueryService(const IPersonRepository& repo);
-    Person* findByPESEL(const std::string& pesel) const;
-
+    std::vector<const Person*> sortByPESEL(SortOrder order) const;
 private:
     const IPersonRepository& repo_;
+
+    std::vector<const Person*> sortBy(
+        std::function<bool(const Person*, const Person*)> comparator) const;
 };

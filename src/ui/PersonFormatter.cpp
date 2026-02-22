@@ -16,6 +16,7 @@ std::string genderToString(Gender gender){
 std::string PersonFormatter::format(const Person& person) const{
     std::ostringstream oss;
     oss << person.name() << " " << person.surname();
+    oss << " | PESEL: " << person.PESEL();
     oss << " | gender: " << genderToString(person.gender());
 
     if (person.address()) {

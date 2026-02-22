@@ -6,8 +6,10 @@
 #include "repository/interfaces/IPersonRepository.hpp"
 #include "ui/ConsoleView.hpp"
 #include "ui/PersonFormatter.hpp"
+#include "services/PersonQueryService.hpp"
 
 #include <memory>
+#include <algorithm>
 
 void RepoTest();
 
@@ -65,6 +67,12 @@ void RepoTest(){
     }
 
     ConsoleView console;
+    PersonQueryService service{repo};
+
     console.printPersons(repo.getAll());
 
+    auto result = service.sortByPESEL(SortOrder::Desc);
+
+    console.printPersons(result);
 }
+
