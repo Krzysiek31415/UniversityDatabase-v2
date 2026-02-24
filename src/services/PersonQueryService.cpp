@@ -58,3 +58,23 @@ std::vector<const Person*> PersonQueryService::sortBySalary(SortOrder order) con
 }
 
 
+std::vector<const Person*> PersonQueryService::sortByIndex(SortOrder order) const{
+    if(order == SortOrder::Asc){
+        return sortBy([](const Person* lhs,  const Person* rhs){
+            const auto& l = lhs->index();
+            const auto& r = rhs->index();
+            if(!l) return false;
+            if(!r) return true;
+            return l.value() < r.value();
+        });
+    }
+    return sortBy([](const Person* lhs,  const Person* rhs){
+        const auto& l = lhs->index();
+        const auto& r = rhs->index();
+        if(!l) return false;
+        if(!r) return true;
+        return l.value() > r.value();
+    }); 
+}
+
+

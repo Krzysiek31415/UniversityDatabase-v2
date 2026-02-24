@@ -19,6 +19,7 @@ public:
     std::vector<const Person*> sortByPESEL(SortOrder order) const;
     std::vector<const Person*> sortByName(SortOrder order) const;
     std::vector<const Person*> sortBySalary(SortOrder order) const;
+    std::vector<const Person*> sortByIndex(SortOrder order) const;
 private:
     const IPersonRepository& repo_;
 

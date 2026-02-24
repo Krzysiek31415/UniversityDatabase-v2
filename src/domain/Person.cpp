@@ -44,4 +44,11 @@ std::optional<double> Person::salary() const {
     return std::nullopt;
 }
 
+std::optional<std::string> Person::index() const {
+    if (auto role = getTrait<HasIndexNumber>())
+        return role->indexNumber();
+    return std::nullopt;
+}
+
+
 
