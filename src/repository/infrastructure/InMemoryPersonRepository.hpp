@@ -9,6 +9,8 @@ public:
     std::vector<const Person*> getAll() const override;
     void removeByPESEL(const std::string& PESEL) override;
     Person* findByPESEL(const std::string& pesel) const override;
+    
+    std::vector<const Person*> findBySurname(const std::string& surname) const override;
 private:
     std::vector<std::unique_ptr<Person>> persons_; 
 };

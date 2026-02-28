@@ -11,4 +11,5 @@ public:
     virtual void removeByPESEL(const std::string& PESEL) = 0;
     virtual std::vector<const Person*> getAll() const = 0;
     virtual Person* findByPESEL(const std::string& pesel) const = 0;
+    virtual std::vector<const Person*> findBySurname(const std::string& surname) const = 0;
 };

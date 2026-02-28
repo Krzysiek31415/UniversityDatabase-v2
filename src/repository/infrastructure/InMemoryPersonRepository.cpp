@@ -40,4 +40,15 @@ Person* InMemoryPersonRepository::findByPESEL(const std::string& pesel) const {
     return result->get();
 }
 
+std::vector<const Person*> InMemoryPersonRepository::findBySurname(const std::string& surname) const {
+    std::vector<const Person*> result;
+    auto people = getAll();
+    std::copy_if(people.begin(), people.end(), std::back_inserter(result), 
+                [&surname](const auto& person ){
+                    return person->surname() == surname;
+                }
+    );
+    return result;
+}
+
 
