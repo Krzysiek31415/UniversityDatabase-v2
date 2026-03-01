@@ -33,7 +33,16 @@ public:
         const std::string& address,
         const std::string& index
     );
+    void addEmployee(
+        const std::string& name,
+        const std::string& surname,
+        const PESEL& pesel,
+        Gender gender,
+        const std::string& address,
+        double salary
+    );
     void addStudentRole(const PESEL& pesel, const std::string& index);
+    void addEmployeeRole(const PESEL& pesel, double salary);
 
 private:
     IPersonRepository& repo_;

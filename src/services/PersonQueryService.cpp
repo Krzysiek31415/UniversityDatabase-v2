@@ -98,6 +98,27 @@ void PersonQueryService::addStudent(
     repo_.add(std::move(person));
 }
 
+void PersonQueryService::addEmployee(
+    const std::string& name,
+    const std::string& surname,
+    const PESEL& pesel,
+    Gender gender,
+    const std::string& address,
+    double salary)
+{
+    if (repo_.findByPESEL(pesel))
+        throw std::invalid_argument("Person exists");
+
+    auto person = std::make_unique<Person>(name, surname, pesel);
+
+    person->setGender(gender);
+    person->setAddress(address);
+
+    person->addRole(std::make_unique<EmployeeRole>(salary));
+
+    repo_.add(std::move(person));
+}
+
 void PersonQueryService::addStudentRole(
     const PESEL& pesel,
     const std::string& index)
