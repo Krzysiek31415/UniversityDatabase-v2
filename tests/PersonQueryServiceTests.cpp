@@ -14,9 +14,9 @@ class PersonQueryServiceTest: public ::testing::Test{
         std::unique_ptr<PersonQueryService> service;
 
         void SetUp() override{
-            auto p1 = std::make_unique<Person>("Adam", "Smith", "98031715344");
-            auto p2 = std::make_unique<Person>("Ralf", "Adams", "78032715494");
-            auto p3 = std::make_unique<Person>("John", "Bacon", "88032715314");
+            auto p1 = std::make_unique<Person>("Adam", "Smith", PESEL("98031715344"));
+            auto p2 = std::make_unique<Person>("Ralf", "Adams", PESEL("78032715494"));
+            auto p3 = std::make_unique<Person>("John", "Bacon", PESEL("88032715314"));
             p1->addRole(std::make_unique<EmployeeRole>(37000));
             p3->addRole(std::make_unique<EmployeeRole>(70000));
             p1->addRole(std::make_unique<StudentRole>("182696"));
@@ -33,18 +33,18 @@ TEST_F(PersonQueryServiceTest, CanSortAscendingByPESEL){
     auto result = service->sortByPESEL(SortOrder::Asc);
     ASSERT_EQ(result.size(), 3);
 
-    EXPECT_EQ(result[0]->PESEL(), "78032715494");
-    EXPECT_EQ(result[1]->PESEL(), "88032715314");
-    EXPECT_EQ(result[2]->PESEL(), "98031715344");
+    EXPECT_EQ(result[0]->pesel(), PESEL("78032715494"));
+    EXPECT_EQ(result[1]->pesel(), PESEL("88032715314"));
+    EXPECT_EQ(result[2]->pesel(), PESEL("98031715344"));
 }
 
 TEST_F(PersonQueryServiceTest, CanSortDescendingByPESEL){
     auto result = service->sortByPESEL(SortOrder::Desc);
     ASSERT_EQ(result.size(), 3);
 
-    EXPECT_EQ(result[0]->PESEL(), "98031715344");
-    EXPECT_EQ(result[1]->PESEL(), "88032715314");
-    EXPECT_EQ(result[2]->PESEL(), "78032715494");
+    EXPECT_EQ(result[0]->pesel(), PESEL("98031715344"));
+    EXPECT_EQ(result[1]->pesel(), PESEL("88032715314"));
+    EXPECT_EQ(result[2]->pesel(), PESEL("78032715494"));
 }
 
 TEST_F(PersonQueryServiceTest, CanSortAscendingByLastName){

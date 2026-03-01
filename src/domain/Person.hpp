@@ -7,6 +7,7 @@
 #include "IRole.hpp"
 #include <typeinfo>
 #include <string>
+#include "PESEL.hpp"
 
 enum class Gender{
     Male,
@@ -18,10 +19,13 @@ enum class Gender{
 class Person
 {
 public:
-    Person(const std::string& name,const std::string& surname, const std::string& PESEL);
+    Person(const std::string& name, 
+        const std::string& surname, 
+        const PESEL& PESEL);
+
     const std::string& name() const;
     const std::string& surname() const; 
-    const std::string& PESEL() const;
+    const PESEL& pesel() const;
     std::optional<double> salary() const;
     std::optional<std::string> index() const;
     void addRole(std::unique_ptr<IRole> role);
@@ -58,7 +62,7 @@ private:
     std::string name_;
     std::string surname_;
     std::optional<std::string> address_;
-    std::string PESEL_; 
+    PESEL PESEL_; 
     Gender gender_ = Gender::Unknown;
     std::vector<std::unique_ptr<IRole>> roles_;
 };

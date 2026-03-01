@@ -3,7 +3,7 @@
 #include "ui/PersonFormatter.hpp"
 
 TEST(PersonFormatterTest, FormatsPersonWithAddress) {
-    Person p{"Jan", "Kowalski", "12345"};
+    Person p{"Jan", "Kowalski", PESEL("12345")};
     p.setGender(Gender::Male);
     p.setAddress("Warszawa");
 

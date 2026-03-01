@@ -10,11 +10,11 @@ TEST(InMemoryPersonRepositoryTest, AddAndGetAllPersons){
 
     InMemoryPersonRepository repo; 
 
-    auto person1 = std::make_unique<Person>("Adam", "Smith", "123456789");
+    auto person1 = std::make_unique<Person>("Adam", "Smith", PESEL("123456789"));
     person1->addRole(std::make_unique<StudentRole>("211345"));
     repo.add(std::move(person1));
 
-    auto person2 = std::make_unique<Person>("Ralf", "Smith", "123456719");
+    auto person2 = std::make_unique<Person>("Ralf", "Smith", PESEL("123456719"));
     person2->addRole(std::make_unique<EmployeeRole>(13000));
     repo.add(std::move(person2));
 
@@ -34,8 +34,8 @@ class InMemoryPersonRepositoryTestF: public ::testing::Test{
 protected:
     InMemoryPersonRepository repo; 
     void SetUp() override{
-        auto p1 = std::make_unique<Person>("Adam", "Smithson", "98031715344");
-        auto p2 = std::make_unique<Person>("Ralf", "Smith", "88032715314");
+        auto p1 = std::make_unique<Person>("Adam", "Smithson", PESEL("98031715344"));
+        auto p2 = std::make_unique<Person>("Ralf", "Smith", PESEL("88032715314"));
         repo.add(std::move(p1));
         repo.add(std::move(p2));
     }
@@ -48,18 +48,18 @@ TEST_F(InMemoryPersonRepositoryTestF, RemovePersonByPESEL){
     EXPECT_EQ(all[0]->name(), "Adam");
     EXPECT_EQ(all[1]->name(), "Ralf");
 
-    repo.removeByPESEL("98031715344");
+    repo.removeByPESEL(PESEL("98031715344"));
     all = repo.getAll();
     ASSERT_EQ(all.size(), 1);
     EXPECT_EQ(all[0]->name(), "Ralf");
 }
 
 TEST_F(InMemoryPersonRepositoryTestF, FindPersonByPESEL){
-    auto* person = repo.findByPESEL("88032715314");
+    auto* person = repo.findByPESEL(PESEL("88032715314"));
 
     ASSERT_NE(person, nullptr);
     EXPECT_EQ(person->name(), "Ralf");
-    EXPECT_EQ(person->PESEL(), "88032715314");
+    EXPECT_EQ(person->pesel(), PESEL("88032715314"));
 }
 
 TEST_F(InMemoryPersonRepositoryTestF, CanFindPersonByUniqueSurname){
@@ -70,18 +70,18 @@ TEST_F(InMemoryPersonRepositoryTestF, CanFindPersonByUniqueSurname){
 }
 
 TEST_F(InMemoryPersonRepositoryTestF, CanFindSomePeopleBySameSurname){
-    auto p = std::make_unique<Person>("Paul", "Smith", "91032715314");
+    auto p = std::make_unique<Person>("Paul", "Smith", PESEL("91032715314"));
     repo.add(std::move(p));
 
     auto result = repo.findBySurname("Smith");
 
     ASSERT_EQ(result.size(), 2);
 
-    std::set<std::string> pesels;
+    std::set<PESEL> pesels;
     for(const auto* person : result)
-        pesels.insert(person->PESEL());
+        pesels.insert(person->pesel());
 
-    EXPECT_TRUE(pesels.contains("88032715314"));
-    EXPECT_TRUE(pesels.contains("91032715314"));
+    EXPECT_TRUE(pesels.contains(PESEL("88032715314")));
+    EXPECT_TRUE(pesels.contains(PESEL("91032715314")));
 }
 

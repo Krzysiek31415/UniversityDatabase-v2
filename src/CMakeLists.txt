@@ -4,6 +4,7 @@ add_library(UniversityCore STATIC
     ui/ConsoleView.cpp
     repository/infrastructure/InMemoryPersonRepository.cpp
     services/PersonQueryService.cpp
+    domain/PESEL.cpp
 )
 
 target_include_directories(UniversityCore PUBLIC

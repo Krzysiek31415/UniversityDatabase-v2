@@ -5,6 +5,8 @@
 #include "../interfaces/IPersonRepository.hpp"
 #include "InMemoryPersonRepository.hpp"
 #include "../../domain/Person.hpp"
+#include "../../domain/PESEL.hpp"
+
 
 
 
@@ -19,20 +21,20 @@ std::vector<const Person*> InMemoryPersonRepository::getAll() const  {
     }
     return result;
 }
-void InMemoryPersonRepository::removeByPESEL(const std::string& PESEL) {
+void InMemoryPersonRepository::removeByPESEL(const PESEL& PESEL) {
     persons_.erase(std::remove_if(
         persons_.begin(), 
         persons_.end(),
         [ &PESEL ](auto& person){
-            return person->PESEL() == PESEL;
+            return person->pesel() == PESEL;
         }),
         persons_.end()
     );  
 }
 
-Person* InMemoryPersonRepository::findByPESEL(const std::string& pesel) const {
+Person* InMemoryPersonRepository::findByPESEL(const PESEL& pesel) const {
     auto result = std::find_if(persons_.begin(), persons_.end(), [&pesel](const auto& person){
-        return pesel == person->PESEL();
+        return pesel == person->pesel();
     });
     if (result == persons_.end()) {
         return nullptr;

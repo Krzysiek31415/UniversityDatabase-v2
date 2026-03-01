@@ -6,14 +6,14 @@
 
 class PersonTest: public ::testing::Test{
 protected:
-    Person person{"Tom", "Smith", "97121004855"};
+    Person person{"Tom", "Smith", PESEL("97121004855")};
 };
 
 TEST_F(PersonTest, StoresBasicData)
 {
     EXPECT_EQ(person.name(), "Tom");
     EXPECT_EQ(person.surname(), "Smith");
-    EXPECT_EQ(person.PESEL(), "97121004855");
+    EXPECT_EQ(person.pesel(), PESEL("97121004855"));
 }
 
 TEST_F(PersonTest, addRoleIncreasesRoleCount_sanity)
