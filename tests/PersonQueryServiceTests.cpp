@@ -158,3 +158,42 @@ TEST_F(PersonQueryServiceTest, AddStudent_ThrowsWhenPersonExists)
         std::invalid_argument
     );
 }
+
+TEST_F(PersonQueryServiceTest, AddStudentRole_AddsRoleWhenPersonExists){
+    PESEL pesel("78032715494");
+
+    auto person = repo.findByPESEL(pesel);
+    ASSERT_NE(person, nullptr);
+    auto role = person->getTrait<StudentRole>();
+    ASSERT_EQ(role, nullptr);
+
+    service->addStudentRole(pesel, "987654");
+    role = person->getTrait<StudentRole>();
+    ASSERT_NE(role, nullptr);
+    EXPECT_EQ(role->indexNumber(), "987654");
+}
+
+TEST_F(PersonQueryServiceTest, AddStudentRole_ThrowsWhenPersonNotFound){
+    PESEL pesel("78032710000");
+
+    auto person = repo.findByPESEL(pesel);
+    ASSERT_EQ(person, nullptr);
+
+    EXPECT_THROW(service->addStudentRole(pesel, "987654"), std::invalid_argument);
+}
+
+TEST_F(PersonQueryServiceTest, AddStudentRole_ThrowsWhenPersonAlreadyStudent){
+    PESEL pesel("33032715314");
+
+    service->addStudent("Jan", "Kowalski", pesel, Gender::Male, "Warszawa", "98765");
+    auto person = repo.findByPESEL(pesel);
+    auto role = person->getTrait<StudentRole>();
+    ASSERT_NE(role, nullptr);
+    
+    EXPECT_THROW(
+        service->addStudentRole(pesel, "999999"),
+        std::logic_error
+    );
+}
+
+
