@@ -3,10 +3,9 @@
 #include <functional>
 #include <limits>
 
-#include "../domain/Person.hpp"
 
 
-PersonQueryService::PersonQueryService(const IPersonRepository& repo)
+PersonQueryService::PersonQueryService(IPersonRepository& repo)
 : repo_{repo}
 {} 
 
@@ -22,11 +21,11 @@ std::vector<const Person*> PersonQueryService::sortBy(
 std::vector<const Person*> PersonQueryService::sortByPESEL(SortOrder order) const{
     if(order == SortOrder::Asc){
         return sortBy([](const Person* lhs,  const Person* rhs){
-            return lhs->PESEL() < rhs->PESEL();
+            return lhs->pesel() < rhs->pesel();
         });
     }
     return sortBy([](const Person* lhs,  const Person* rhs){
-        return lhs->PESEL() > rhs->PESEL();
+        return lhs->pesel() > rhs->pesel();
     });
     
 }
@@ -77,4 +76,25 @@ std::vector<const Person*> PersonQueryService::sortByIndex(SortOrder order) cons
     }); 
 }
 
+
+void PersonQueryService::addStudent(
+    const std::string& name,
+    const std::string& surname,
+    const PESEL& pesel,
+    Gender gender,
+    const std::string& address,
+    const std::string& index)
+{
+    if (repo_.findByPESEL(pesel))
+        throw std::invalid_argument("Person exists");
+
+    auto person = std::make_unique<Person>(name, surname, pesel);
+
+    person->setGender(gender);
+    person->setAddress(address);
+
+    person->addRole(std::make_unique<StudentRole>(index));
+
+    repo_.add(std::move(person));
+}
 
