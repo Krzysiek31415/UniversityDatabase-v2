@@ -98,3 +98,17 @@ void PersonQueryService::addStudent(
     repo_.add(std::move(person));
 }
 
+void PersonQueryService::addStudentRole(
+    const PESEL& pesel,
+    const std::string& index)
+{
+    auto* person = repo_.findByPESEL(pesel);
+    if (!person)
+        throw std::invalid_argument("Not found");
+
+    if (person->getTrait<StudentRole>())
+        throw std::logic_error("Already student");
+
+    person->addRole(std::make_unique<StudentRole>(index));
+}
+

@@ -33,6 +33,7 @@ public:
         const std::string& address,
         const std::string& index
     );
+    void addStudentRole(const PESEL& pesel, const std::string& index);
 
 private:
     IPersonRepository& repo_;
