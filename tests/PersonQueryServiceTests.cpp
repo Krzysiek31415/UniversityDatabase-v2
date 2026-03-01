@@ -114,3 +114,47 @@ TEST_F(PersonQueryServiceTest, CanSortDescendingByIndexNumber){
     EXPECT_EQ(result[0]->index().value(), "201332");
     EXPECT_EQ(result[1]->index().value(), "182696");
 }
+
+TEST_F(PersonQueryServiceTest, AddStudent_AddsPersonWithStudentRole)
+{
+    PESEL pesel("44032715314");
+
+    service->addStudent(
+        "Jan",
+        "Kowalski",
+        pesel,
+        Gender::Male,
+        "Warszawa",
+        "123456"
+    );
+
+    auto* person = repo.findByPESEL(pesel);
+
+    ASSERT_NE(person, nullptr);
+
+    EXPECT_EQ(person->name(), "Jan");
+    EXPECT_EQ(person->surname(), "Kowalski");
+    EXPECT_EQ(person->gender(), Gender::Male);
+
+    auto* student = person->getTrait<StudentRole>();
+    ASSERT_NE(student, nullptr);
+    EXPECT_EQ(student->indexNumber(), "123456");
+}
+
+TEST_F(PersonQueryServiceTest, AddStudent_ThrowsWhenPersonExists)
+{
+    PESEL pesel("44032715314");
+
+    service->addStudent(
+        "Jan", "Kowalski", pesel,
+        Gender::Male, "Warszawa", "123456"
+    );
+
+    EXPECT_THROW(
+        service->addStudent(
+            "Jan", "Kowalski", pesel,
+            Gender::Male, "Warszawa", "123456"
+        ),
+        std::invalid_argument
+    );
+}
