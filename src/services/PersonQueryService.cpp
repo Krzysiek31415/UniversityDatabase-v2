@@ -145,3 +145,17 @@ void PersonQueryService::removeStudentRole(const PESEL& pesel)
     person->removeRole<StudentRole>();
 }
 
+
+void PersonQueryService::addEmployeeRole(
+    const PESEL& pesel,
+    double salary)
+{
+    auto* person = repo_.findByPESEL(pesel);
+    if (!person){
+        throw std::invalid_argument("Not found");
+    }
+    if (person->getTrait<EmployeeRole>()){
+        throw std::logic_error("Already employee");
+    }
+    person->addRole(std::make_unique<EmployeeRole>(salary));
+}
