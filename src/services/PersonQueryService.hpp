@@ -44,6 +44,7 @@ public:
     void addStudentRole(const PESEL& pesel, const std::string& index);
     void removeStudentRole(const PESEL& pesel);
     void addEmployeeRole(const PESEL& pesel, double salary);
+    void removeEmployeeRole(const PESEL& pesel);
 
 
 private:

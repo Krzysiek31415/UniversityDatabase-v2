@@ -159,3 +159,16 @@ void PersonQueryService::addEmployeeRole(
     }
     person->addRole(std::make_unique<EmployeeRole>(salary));
 }
+
+
+void PersonQueryService::removeEmployeeRole(const PESEL& pesel)
+{
+    auto* person = repo_.findByPESEL(pesel);
+    if (!person){
+        throw std::invalid_argument("Not found");
+    }
+    if (!person->getTrait<EmployeeRole>()){
+        throw std::logic_error("Not employee");
+    }
+    person->removeRole<EmployeeRole>();
+}
