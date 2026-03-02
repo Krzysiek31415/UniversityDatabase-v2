@@ -85,9 +85,9 @@ void PersonQueryService::addStudent(
     const std::string& address,
     const std::string& index)
 {
-    if (repo_.findByPESEL(pesel))
+    if (repo_.findByPESEL(pesel)){
         throw std::invalid_argument("Person exists");
-
+    }
     auto person = std::make_unique<Person>(name, surname, pesel);
 
     person->setGender(gender);
@@ -106,9 +106,9 @@ void PersonQueryService::addEmployee(
     const std::string& address,
     double salary)
 {
-    if (repo_.findByPESEL(pesel))
+    if (repo_.findByPESEL(pesel)){
         throw std::invalid_argument("Person exists");
-
+    }
     auto person = std::make_unique<Person>(name, surname, pesel);
 
     person->setGender(gender);
@@ -124,12 +124,24 @@ void PersonQueryService::addStudentRole(
     const std::string& index)
 {
     auto* person = repo_.findByPESEL(pesel);
-    if (!person)
+    if (!person){
         throw std::invalid_argument("Not found");
-
-    if (person->getTrait<StudentRole>())
+    }
+    if (person->getTrait<StudentRole>()){
         throw std::logic_error("Already student");
-
+    }
     person->addRole(std::make_unique<StudentRole>(index));
+}
+
+void PersonQueryService::removeStudentRole(const PESEL& pesel)
+{
+    auto* person = repo_.findByPESEL(pesel);
+    if (!person){
+        throw std::invalid_argument("Not found");
+    }
+    if (!person->getTrait<StudentRole>()){
+        throw std::logic_error("Not a student");
+    }
+    person->removeRole<StudentRole>();
 }
 
