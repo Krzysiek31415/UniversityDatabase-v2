@@ -3,17 +3,17 @@
 
 #include <sstream>
 
-namespace{
-    std::string genderToString(Gender gender){
 
-        switch(gender){
-            case Gender::Male: return "Male";
-            case Gender::Female: return "Female";
-            case Gender::Unknown: return "Unknown"; 
-        }
-        return "Unknown";
+std::string genderToString(Gender gender){
+
+    switch(gender){
+        case Gender::Male: return "Male";
+        case Gender::Female: return "Female";
+        case Gender::Unknown: return "Unknown"; 
     }
+    return "Unknown";
 }
+
 
 
 std::string PersonFormatter::format(const Person& person) const{

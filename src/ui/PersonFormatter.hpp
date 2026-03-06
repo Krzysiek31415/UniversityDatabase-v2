@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
+#include "../domain/Person.hpp"
 
-class Person;
+std::string genderToString(Gender gender);
 
 class PersonFormatter{
+    
 public:
     std::string format(const Person& person) const;
 };

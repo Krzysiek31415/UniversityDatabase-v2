@@ -99,5 +99,8 @@ void ConsoleUI::addStudent(){
 
 void ConsoleUI::showDatabase(){
     ConsoleView view;
+    std::cout << "\033[32m";
+    view.printHeader();
+    std::cout << "\033[0m";
     view.printPersons(service_.getAll());
 }
