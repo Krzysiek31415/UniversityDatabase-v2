@@ -10,12 +10,13 @@ public:
     void run();
 
 private:
-    PersonQueryService& services_;
+    PersonQueryService& service_;
     std::unordered_map<std::string, std::function<void()>> commands_;
 
     void showMenu();
     void registerCommands();
     void exit();
+    void addStudent();
 
     bool running;
 };
