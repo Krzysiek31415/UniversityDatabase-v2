@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include <functional>
+#include "ConsoleView.hpp"
 
 class ConsoleUI{
 public:
@@ -17,6 +18,7 @@ private:
     void registerCommands();
     void exit();
     void addStudent();
+    void showDatabase();
 
     bool running;
 };

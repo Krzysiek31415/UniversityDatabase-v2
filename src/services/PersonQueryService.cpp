@@ -172,3 +172,7 @@ void PersonQueryService::removeEmployeeRole(const PESEL& pesel)
     }
     person->removeRole<EmployeeRole>();
 }
+
+std::vector<const Person*> PersonQueryService::getAll(){
+    return repo_.getAll();
+}

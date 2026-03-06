@@ -45,6 +45,7 @@ public:
     void removeStudentRole(const PESEL& pesel);
     void addEmployeeRole(const PESEL& pesel, double salary);
     void removeEmployeeRole(const PESEL& pesel);
+    std::vector<const Person*> getAll();
 
 
 private:

@@ -2,14 +2,14 @@
 #include <iostream>
 #include <limits>
 
-ConsoleUI::ConsoleUI(PersonQueryService& service): service_{service}{
+ConsoleUI::ConsoleUI(PersonQueryService& service): service_{service}, running{true}{
     registerCommands();
-    running = true;
 }
 
 void ConsoleUI::registerCommands(){
     commands_["0"] = [this](){exit(); };
     commands_["1"] = [this](){addStudent(); };
+    commands_["2"] = [this](){showDatabase(); };
 }
 
 void ConsoleUI::run(){
@@ -33,6 +33,7 @@ void ConsoleUI::showMenu(){
     std::cout << "\n===== MENU =====\n";
     std::cout << "0. Exit\n";
     std::cout << "1. Add student\n";
+    std::cout << "2. Show database\n";
 }
 
 
@@ -86,8 +87,6 @@ void ConsoleUI::addStudent(){
     std::cout << "Index: ";
     std::cin >> index;
 
-
-
     service_.addStudent(
         name,
         surname,
@@ -96,4 +95,9 @@ void ConsoleUI::addStudent(){
         address,
         index
     );
+}
+
+void ConsoleUI::showDatabase(){
+    ConsoleView view;
+    view.printPersons(service_.getAll());
 }
