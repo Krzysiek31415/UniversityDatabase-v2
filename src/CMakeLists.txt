@@ -2,6 +2,7 @@ add_library(UniversityCore STATIC
     domain/Person.cpp
     ui/PersonFormatter.cpp
     ui/ConsoleView.cpp
+    ui/ConsoleUI.cpp
     repository/infrastructure/InMemoryPersonRepository.cpp
     services/PersonQueryService.cpp
     domain/PESEL.cpp

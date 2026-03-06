@@ -29,6 +29,7 @@ CMakeFiles/
 *.log
 temp.cpp
 tmp/
+main_test.cpp
 
 # Dependencies (if external)
 external/
