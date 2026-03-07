@@ -18,7 +18,8 @@ private:
     void registerCommands();
     void exit();
     void addStudent();
+    void addEmployee();
     void showDatabase();
-
+    
     bool running;
 };

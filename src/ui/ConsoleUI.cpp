@@ -9,7 +9,8 @@ ConsoleUI::ConsoleUI(PersonQueryService& service): service_{service}, running{tr
 void ConsoleUI::registerCommands(){
     commands_["0"] = [this](){exit(); };
     commands_["1"] = [this](){addStudent(); };
-    commands_["2"] = [this](){showDatabase(); };
+    commands_["2"] = [this](){addEmployee(); };
+    commands_["3"] = [this](){showDatabase(); };
 }
 
 void ConsoleUI::run(){
@@ -33,7 +34,8 @@ void ConsoleUI::showMenu(){
     std::cout << "\n===== MENU =====\n";
     std::cout << "0. Exit\n";
     std::cout << "1. Add student\n";
-    std::cout << "2. Show database\n";
+    std::cout << "2. Add employee\n";
+    std::cout << "3. Show database\n";
 }
 
 
@@ -53,6 +55,32 @@ namespace{
             return Gender::Unknown;  
         }
     }
+
+    void readCommonPersonData(std::string &name,
+                    std::string &surname,
+                    std::string &pesel,
+                    Gender &gender,
+                    std::string &address){
+
+            std::cout << "Name: ";
+            std::cin >> name;
+
+            std::cout << "Surname: ";
+            std::cin >> surname;
+
+            std::cout << "PESEL: ";
+            std::cin >> pesel;
+
+            std::cout << "Gender:\n";
+            std::cout << "1 - male\n2 - female\n3 - unknown\nSelect option:\n";
+            size_t n;
+            std::cin >> n;
+            gender = numberToGender(n);
+
+            std::cout << "Address: ";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::getline(std::cin, address);
+        }
 }
 
 
@@ -65,24 +93,7 @@ void ConsoleUI::addStudent(){
     Gender gender;
     std::string address;
 
-    std::cout << "Name: ";
-    std::cin >> name;
-
-    std::cout << "Surname: ";
-    std::cin >> surname;
-
-    std::cout << "PESEL: ";
-    std::cin >> pesel;
-
-    std::cout << "Gender:\n";
-    std::cout << "1 - male\n2 - female\n3 - unknown\nSelect option:\n";
-    size_t n;
-    std::cin >> n;
-    gender = numberToGender(n);
-
-    std::cout << "Address: ";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::getline(std::cin, address);
+    readCommonPersonData(name, surname, pesel, gender, address);
 
     std::cout << "Index: ";
     std::cin >> index;
@@ -103,4 +114,28 @@ void ConsoleUI::showDatabase(){
     view.printHeader();
     std::cout << "\033[0m";
     view.printPersons(service_.getAll());
+}
+
+void ConsoleUI::addEmployee(){
+
+    std::string name;
+    std::string surname;
+    std::string pesel;
+    double salary;
+    Gender gender;
+    std::string address;
+
+    readCommonPersonData(name, surname, pesel, gender, address);
+
+    std::cout << "Salary: ";
+    std::cin >> salary;
+
+    service_.addEmployee(
+        name,
+        surname,
+        PESEL(pesel),
+        gender,
+        address,
+        salary
+    );
 }
