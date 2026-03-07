@@ -47,7 +47,16 @@ void ConsoleView::printPerson(const Person& p) const {
         << std::setw(15) << p.pesel()
         << std::setw(10) << genderToString(p.gender())
         << std::setw(ADDRESS_W) << cutStr((p.address() ? *p.address() : "---"), ADDRESS_W) 
-        << std::setw(10) << (p.index() ? *p.index() : "---")
-        << std::setw(10) << (p.salary() ? std::to_string(*p.salary()) : "---")
-        << '\n';
+        << std::setw(10) << (p.index() ? *p.index() : "---");
+
+        auto salary = p.salary();
+        if (salary) {
+            std::cout << std::setw(10)
+                    << std::fixed
+                    << std::setprecision(2)
+                    << salary.value();
+        } else {
+            std::cout << std::setw(10) << "---";
+        }
+        std::cout << "\n";
 }
