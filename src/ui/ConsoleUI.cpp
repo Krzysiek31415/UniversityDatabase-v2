@@ -4,6 +4,18 @@
 #include <utility>
 
 namespace{
+    Gender numberToGender(size_t n);
+    void readCommonPersonData(std::string &name,
+        std::string &surname,
+        std::string &pesel,
+        Gender &gender,
+        std::string &address);
+    std::pair<SortField, SortOrder> numberToEnums(const std::pair<size_t, size_t>& numbers);
+    std::string readLine([[maybe_unused]]const std::string& prompt = {});
+    template<class T>
+    T readNumber([[maybe_unused]]const std::string& prompt = {} );
+
+
     Gender numberToGender(size_t n){
         if(n < 1 || n > 3){
             throw std::runtime_error("Invalid Gender Input");
@@ -17,40 +29,72 @@ namespace{
                     Gender &gender,
                     std::string &address){
 
-            std::cout << "Name: ";
-            std::cin >> name;
+            name = readLine("Name: ");
+            surname = readLine("Surname: ");
+            pesel = readLine("PESEL: ");
 
-            std::cout << "Surname: ";
-            std::cin >> surname;
-
-            std::cout << "PESEL: ";
-            std::cin >> pesel;
-
-            std::cout << "Gender:\n";
-            std::cout << "1 - male\n2 - female\n3 - unknown\nSelect option:\n";
-            size_t n;
-            std::cin >> n;
+            size_t n = readNumber<size_t>("Gender:\n\t1 - male\n\t2 - female\n\t3 - unknown\n\tSelect option:\n");
             gender = numberToGender(n);
 
-            std::cout << "Address: ";
+            address = readLine("Address: ");
+    }
+
+    std::pair<SortField, SortOrder> numberToEnums(const std::pair<size_t, size_t>& numbers){
+        const auto [field, order] = numbers;
+
+        if(field < 1 || field > 4){
+            throw std::runtime_error("Invalid sort field");
+        }
+        if(order < 1 || order > 2){
+            throw std::runtime_error("Invalid sort order");
+        }
+        return {
+            static_cast<SortField>(field),
+            static_cast<SortOrder>(order)
+        };
+    }
+
+    std::string readLine([[maybe_unused]]const std::string& prompt)
+    {
+        std::string line;
+
+        while (true) {
+            if (!prompt.empty()) {
+                std::cout << prompt;
+            }
+
+            if (std::getline(std::cin, line)) {
+                return line;
+            }
+
+            if (std::cin.eof()) {
+                throw std::runtime_error("Input stream closed");
+            }
+
+            std::cin.clear();
+        }
+    }
+
+    template<class T>
+    T readNumber([[maybe_unused]]const std::string& prompt){
+
+        T value;
+        while(true){
+            if (!prompt.empty()) {
+                std::cout << prompt;
+            }
+
+            if(std::cin >> value){
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                return value;
+            }
+    
+            std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::getline(std::cin, address);
+    
+            std::cout << "Invalid input. Try again.\n";
         }
-
-        std::pair<SortField, SortOrder> numberToEnums(const std::pair<size_t, size_t>& numbers){
-            const auto [field, order] = numbers;
-
-            if(field < 1 || field > 4){
-                throw std::runtime_error("Invalid sort field");
-            }
-            if(order < 1 || order > 2){
-                throw std::runtime_error("Invalid sort order");
-            }
-            return {
-                static_cast<SortField>(field),
-                static_cast<SortOrder>(order)
-            };
-        }
+    }
 }
 
 
@@ -72,11 +116,20 @@ void ConsoleUI::run(){
     while(running){
         showMenu();
 
-        std::cin >> command;
+        if(!(std::cin >> command)){
+            break;
+        }
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 
         auto it = commands_.find(command);
         if(it != commands_.end()){
-            it->second();
+            try{
+                it->second();
+            }
+            catch(const std::exception& e){
+                std::cout << "Error: " << e.what() << "\n";
+            }
         }else{
             std::cout << "Unknown command\n";
         }
@@ -95,34 +148,20 @@ void ConsoleUI::showMenu(){
 
 std::pair<size_t, size_t> ConsoleUI::sortMenu(){
 
-    size_t fieldChoice;
-    size_t orderChoice;
-
     std::cout << "Sort by:\n";
     std::cout << "1 - Index number\n";
     std::cout << "2 - PESEL\n";
     std::cout << "3 - Salary\n";
     std::cout << "4 - Surname\n";
 
-    if(!(std::cin >> fieldChoice))
-    {
-        std::cin.clear();
-        std::cin.ignore(10000, '\n');
-        std::cout << "Invalid input\n";
-        return {1, 1};
-    }
+    size_t fieldChoice = readNumber<size_t>();
+
 
     std::cout << "Order:\n";
     std::cout << "1 - Ascending\n";
     std::cout << "2 - Descending\n";
 
-    if(!(std::cin >> orderChoice))
-    {
-        std::cin.clear();
-        std::cin.ignore(10000, '\n');
-        std::cout << "Invalid input\n";
-        return {1, 1};
-    }
+    size_t orderChoice= readNumber<size_t>();
 
     return std::pair<size_t, size_t>(fieldChoice, orderChoice);
 }
@@ -144,14 +183,13 @@ void ConsoleUI::addStudent(){
     std::string name;
     std::string surname;
     std::string pesel;
-    std::string index;
+
     Gender gender;
     std::string address;
 
     readCommonPersonData(name, surname, pesel, gender, address);
 
-    std::cout << "Index: ";
-    std::cin >> index;
+    std::string index = readLine("Index: ");
 
     service_.addStudent(
         name,
@@ -188,14 +226,12 @@ void ConsoleUI::addEmployee(){
     std::string name;
     std::string surname;
     std::string pesel;
-    double salary;
     Gender gender;
     std::string address;
 
     readCommonPersonData(name, surname, pesel, gender, address);
 
-    std::cout << "Salary: ";
-    std::cin >> salary;
+    double salary = readNumber<double>("Salary: ");
 
     service_.addEmployee(
         name,
