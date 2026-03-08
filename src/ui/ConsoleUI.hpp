@@ -24,10 +24,15 @@ private:
     void showMenu();
     void registerCommands();
     void exit();
+    
     void addStudent();
     void addStudentRole();
     void removeStudentRole();
+
     void addEmployee();
+    void addEmployeeRole();
+    void removeEmployeeRole();
+
     void showDatabase() const ;
     void showDatabase(const std::vector<const Person*>& persons) const;
 

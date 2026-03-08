@@ -125,7 +125,7 @@ void PersonQueryService::addStudentRole(
 {
     auto* person = repo_.findByPESEL(pesel);
     if (!person){
-        throw std::invalid_argument("Not found");
+        throw std::invalid_argument("Person not found");
     }
     if (person->getTrait<StudentRole>()){
         throw std::logic_error("Already student");
@@ -137,7 +137,7 @@ void PersonQueryService::removeStudentRole(const PESEL& pesel)
 {
     auto* person = repo_.findByPESEL(pesel);
     if (!person){
-        throw std::invalid_argument("Not found");
+        throw std::invalid_argument("Person not found");
     }
     if (!person->getTrait<StudentRole>()){
         throw std::logic_error("Not a student");
@@ -152,7 +152,7 @@ void PersonQueryService::addEmployeeRole(
 {
     auto* person = repo_.findByPESEL(pesel);
     if (!person){
-        throw std::invalid_argument("Not found");
+        throw std::invalid_argument("Person not found");
     }
     if (person->getTrait<EmployeeRole>()){
         throw std::logic_error("Already employee");
@@ -165,7 +165,7 @@ void PersonQueryService::removeEmployeeRole(const PESEL& pesel)
 {
     auto* person = repo_.findByPESEL(pesel);
     if (!person){
-        throw std::invalid_argument("Not found");
+        throw std::invalid_argument("Person not found");
     }
     if (!person->getTrait<EmployeeRole>()){
         throw std::logic_error("Not employee");
