@@ -108,6 +108,7 @@ void ConsoleUI::registerCommands(){
     commands_["2"] = [this](){addEmployee(); };
     commands_["3"] = [this](){showDatabase(); };
     commands_["4"] = [this](){runSort(); };
+    commands_["5"] = [this](){addStudentRole(); };
 }
 
 void ConsoleUI::run(){
@@ -143,6 +144,8 @@ void ConsoleUI::showMenu(){
     std::cout << "2. Add employee\n";
     std::cout << "3. Show database\n";
     std::cout << "4. Sort menu\n";
+    std::cout << "5. Add student role\n";
+    
 
 }
 
@@ -258,3 +261,11 @@ std::vector<const Person*> ConsoleUI::executeSort(SortField field, SortOrder ord
             return {};
     }
 } 
+
+void ConsoleUI::addStudentRole(){
+    auto pesel = readLine("PESEL: ");
+    auto indexNumber = readLine("Index number: ");
+
+    service_.addStudentRole(PESEL{pesel}, indexNumber);
+    std::cout << "Student role added\n";
+}

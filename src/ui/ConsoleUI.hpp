@@ -25,6 +25,8 @@ private:
     void registerCommands();
     void exit();
     void addStudent();
+    void addStudentRole();
+    void removeStudentRole();
     void addEmployee();
     void showDatabase() const ;
     void showDatabase(const std::vector<const Person*>& persons) const;
