@@ -5,15 +5,10 @@
 
 namespace{
     Gender numberToGender(size_t n){
-        switch (n)
-        {
-        case 1:
-            return Gender::Male;
-        case 2:
-            return Gender::Female; 
-        default:
-            return Gender::Unknown;  
+        if(n < 1 || n > 3){
+            throw std::runtime_error("Invalid Gender Input");
         }
+        return static_cast<Gender>(n);
     }
 
     void readCommonPersonData(std::string &name,
@@ -44,27 +39,17 @@ namespace{
 
         std::pair<SortField, SortOrder> numberToEnums(const std::pair<size_t, size_t>& numbers){
             const auto [field, order] = numbers;
-            SortField sortField;
-            SortOrder sortOrder;
 
-            switch (field){
-                case 1: sortField = SortField::INDEX_NUMBER; break;
-                case 2: sortField = SortField::PESEL; break;
-                case 3: sortField = SortField::SALARY; break;
-                case 4: sortField = SortField::SURNAME; break;
-                default:
-                    std::cout << "Invalid field\n";
-                    break;
+            if(field < 1 || field > 4){
+                throw std::runtime_error("Invalid sort field");
             }
-
-            switch (order){
-                case 1: sortOrder = SortOrder::Asc; break;
-                case 2: sortOrder = SortOrder::Desc; break;
-                default:
-                    std::cout << "Invalid field\n";
-                    break;
+            if(order < 1 || order > 2){
+                throw std::runtime_error("Invalid sort order");
             }
-            return std::pair<SortField, SortOrder>(sortField, sortOrder);
+            return {
+                static_cast<SortField>(field),
+                static_cast<SortOrder>(order)
+            };
         }
 }
 

@@ -47,7 +47,6 @@ public:
     void removeEmployeeRole(const PESEL& pesel);
     std::vector<const Person*> getAll();
 
-
 private:
     IPersonRepository& repo_;
 

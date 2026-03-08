@@ -6,7 +6,7 @@
 #include "ConsoleView.hpp"
 
 enum class SortField{
-    PESEL,
+    PESEL = 1,
     SURNAME,
     SALARY,
     INDEX_NUMBER

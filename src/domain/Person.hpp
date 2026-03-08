@@ -10,7 +10,7 @@
 #include "PESEL.hpp"
 
 enum class Gender{
-    Male,
+    Male = 1,
     Female,
     Unknown
 };
