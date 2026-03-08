@@ -5,6 +5,13 @@
 #include <functional>
 #include "ConsoleView.hpp"
 
+enum class SortField{
+    PESEL,
+    SURNAME,
+    SALARY,
+    INDEX_NUMBER
+};
+
 class ConsoleUI{
 public:
     explicit ConsoleUI(PersonQueryService& services);
@@ -19,7 +26,12 @@ private:
     void exit();
     void addStudent();
     void addEmployee();
-    void showDatabase();
+    void showDatabase() const ;
+    void showDatabase(const std::vector<const Person*>& persons) const;
+
+    std::vector<const Person*> executeSort(SortField field, SortOrder order);
+    std::pair<size_t, size_t> sortMenu();
+    void runSort();
     
     bool running;
 };
