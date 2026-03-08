@@ -98,7 +98,7 @@ namespace{
 }
 
 
-ConsoleUI::ConsoleUI(PersonQueryService& service): service_{service}, running{true}{
+ConsoleUI::ConsoleUI(PersonQueryService& service): service_{service},storage_{""}, running{true}{
     registerCommands();
 }
 
@@ -112,6 +112,7 @@ void ConsoleUI::registerCommands(){
     commands_["6"] = [this](){removeStudentRole(); };
     commands_["7"] = [this](){addEmployeeRole(); };
     commands_["8"] = [this](){removeEmployeeRole(); };
+    commands_["9"] = [this](){saveDatabase();};
 }
 
 void ConsoleUI::run(){
@@ -151,6 +152,7 @@ void ConsoleUI::showMenu(){
     std::cout << "6. Remove student role\n";
     std::cout << "7. Add employee role\n";
     std::cout << "8. Remove employee role\n";
+    std::cout << "9. Save database \n";
 }
 
 std::pair<size_t, size_t> ConsoleUI::sortMenu(){
@@ -296,4 +298,10 @@ void ConsoleUI::removeEmployeeRole(){
     service_.removeEmployeeRole(PESEL{pesel});
 
     std::cout << "Employee role removed\n";
+}
+
+void ConsoleUI::saveDatabase(){
+    storage_.setFileName("../data/persons.csv");
+    storage_.save(service_.getAll());
+    std::cout << "Database saved\n";
 }

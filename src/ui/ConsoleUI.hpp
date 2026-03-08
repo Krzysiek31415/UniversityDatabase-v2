@@ -4,6 +4,7 @@
 #include <string>
 #include <functional>
 #include "ConsoleView.hpp"
+#include "../storage/PersonStorage.hpp"
 
 enum class SortField{
     PESEL = 1,
@@ -19,12 +20,13 @@ public:
 
 private:
     PersonQueryService& service_;
+    PersonStorage storage_;
     std::unordered_map<std::string, std::function<void()>> commands_;
 
     void showMenu();
     void registerCommands();
     void exit();
-    
+
     void addStudent();
     void addStudentRole();
     void removeStudentRole();
@@ -35,6 +37,8 @@ private:
 
     void showDatabase() const ;
     void showDatabase(const std::vector<const Person*>& persons) const;
+
+    void saveDatabase();
 
     std::vector<const Person*> executeSort(SortField field, SortOrder order);
     std::pair<size_t, size_t> sortMenu();
