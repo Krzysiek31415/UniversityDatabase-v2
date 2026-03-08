@@ -111,7 +111,7 @@ void ConsoleUI::registerCommands(){
     commands_["5"] = [this](){addStudentRole(); };
     commands_["6"] = [this](){removeStudentRole(); };
     commands_["7"] = [this](){addEmployeeRole(); };
-    
+    commands_["8"] = [this](){removeEmployeeRole(); };
 }
 
 void ConsoleUI::run(){
@@ -150,7 +150,7 @@ void ConsoleUI::showMenu(){
     std::cout << "5. Add student role\n";
     std::cout << "6. Remove student role\n";
     std::cout << "7. Add employee role\n";
-
+    std::cout << "8. Remove employee role\n";
 }
 
 std::pair<size_t, size_t> ConsoleUI::sortMenu(){
@@ -288,4 +288,12 @@ void ConsoleUI::addEmployeeRole(){
     service_.addEmployeeRole(PESEL{pesel}, salary);
 
     std::cout << "Employee role added\n";
+}
+
+void ConsoleUI::removeEmployeeRole(){
+    auto pesel = readLine("PESEL: ");
+
+    service_.removeEmployeeRole(PESEL{pesel});
+
+    std::cout << "Employee role removed\n";
 }
