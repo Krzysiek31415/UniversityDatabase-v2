@@ -6,11 +6,6 @@
 class PersonStorage
 {
 public:
-    PersonStorage(const std::string& filename = 0);
-    void save(const std::vector<const Person*>& repo);
+    void save(const std::vector<const Person*>& repo, const std::string& name);
     void load();
-    void setFileName(const std::string& name);
-
-private:
-    std::string filename_;
 };

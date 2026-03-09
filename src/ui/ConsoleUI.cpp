@@ -98,7 +98,7 @@ namespace{
 }
 
 
-ConsoleUI::ConsoleUI(PersonQueryService& service): service_{service},storage_{""}, running{true}{
+ConsoleUI::ConsoleUI(PersonQueryService& service): service_{service}, running{true}{
     registerCommands();
 }
 
@@ -301,7 +301,6 @@ void ConsoleUI::removeEmployeeRole(){
 }
 
 void ConsoleUI::saveDatabase(){
-    storage_.setFileName("../data/persons.csv");
-    storage_.save(service_.getAll());
+    storage_.save(service_.getAll(), "../data/persons.csv");
     std::cout << "Database saved\n";
 }

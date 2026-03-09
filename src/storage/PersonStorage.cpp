@@ -7,13 +7,11 @@
 #include "../domain/Person.hpp"
 #include "PersonCsvFormatter.hpp"
 
-PersonStorage::PersonStorage(const std::string& filename)
-                : filename_(std::move(filename))
-{}
 
-void PersonStorage::save(const std::vector<const Person*>& repo)
+void PersonStorage::save(const std::vector<const Person*>& repo, const std::string& filename)
 {
-    std::ofstream file(filename_);
+
+    std::ofstream file(filename);
 
     if (!file){
         throw std::runtime_error("Cannot open file");
@@ -21,9 +19,5 @@ void PersonStorage::save(const std::vector<const Person*>& repo)
     for (const auto* p : repo){
         file << PersonCsvFormatter::serialize(*p) << "\n";
     }
-}
-
-void PersonStorage::setFileName(const std::string& name){
-    filename_ = std::move(name);
 }
 
