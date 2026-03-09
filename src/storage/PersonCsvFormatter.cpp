@@ -1,6 +1,9 @@
 #include "PersonCsvFormatter.hpp"
 #include "../domain/Person.hpp"
 #include <sstream>
+#include <optional>
+#include <iostream>
+#include <type_traits>
 
 namespace{
     std::string genderToString(Gender gender){
@@ -11,32 +14,30 @@ namespace{
         }
         return "Unknown";
     }
+
+    template<class T>
+    std::string optionalToString(const std::optional<T>& data){
+        if (!data){
+            return ";";
+        }
+        std::ostringstream oss;
+        oss << *data;
+        return oss.str() + ";";
+    }
 }
+
+
 
 std::string PersonCsvFormatter::serialize(const Person& person){
     std::stringstream oss;
 
-    oss << person.name() << " | " << person.surname();
-    oss << " | PESEL: " << person.pesel();
-    oss << " | gender: " << genderToString(person.gender());
+    oss << person.name() << ';'
+        << person.surname() << ';'
+        << person.pesel() << ';'
+        << genderToString(person.gender()) << ';';
 
-    if (person.address()) {
-        oss << " | address: " << person.address().value();
-    }else{
-        oss << " | address: ---";
-    }
-
-    if (person.index()) {
-        oss << " | index: " << person.index().value();
-    }else{
-        oss << "| index: ---";
-    }
-
-    if (person.salary()) {
-        oss << " | salary: " << person.salary().value();
-    }else{
-        oss << "| salary: ---";
-    }
-    
+    oss << optionalToString(person.address());
+    oss << optionalToString(person.index());
+    oss << optionalToString(person.salary());
     return oss.str();
 }
