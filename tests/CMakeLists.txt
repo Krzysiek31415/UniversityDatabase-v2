@@ -15,6 +15,7 @@ add_executable(UniversityTests
     InMemoryPersonRepository_tests.cpp
     PersonFormatterTest.cpp
     PersonQueryServiceTests.cpp
+    PersonCsvFormatterTest.cpp
 )
 target_compile_features(UniversityTests PRIVATE cxx_std_20)
 
