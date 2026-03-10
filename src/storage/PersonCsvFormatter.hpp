@@ -2,11 +2,12 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
 class Person;
 
 class PersonCsvFormatter {
 public:
     static std::string serialize(const Person& person);
-    static Person* deserialize(const std::string& line);
+    static std::vector<std::string> deserialize(std::string& line);
 };

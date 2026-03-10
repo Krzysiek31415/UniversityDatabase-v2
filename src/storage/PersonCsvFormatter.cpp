@@ -27,7 +27,6 @@ namespace{
 }
 
 
-
 std::string PersonCsvFormatter::serialize(const Person& person){
     std::stringstream oss;
 
@@ -40,4 +39,21 @@ std::string PersonCsvFormatter::serialize(const Person& person){
     oss << optionalToString(person.index());
     oss << optionalToString(person.salary());
     return oss.str();
+}
+
+std::vector<std::string> PersonCsvFormatter::deserialize(std::string& line){
+    std::vector<std::string> data;
+
+    size_t beginData{};
+    size_t endData{};
+
+    while(endData != std::string::npos){
+        endData = line.find(";", beginData);
+        data.push_back(line.substr(beginData, endData-beginData));
+        beginData = endData + 1; 
+        if(endData == line.size()-1){
+            break;
+        }
+    }
+    return data;
 }
