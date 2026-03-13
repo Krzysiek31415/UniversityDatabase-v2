@@ -156,4 +156,113 @@ TEST(PersonFormaterCsvTest, DeserializePersonWithoutOptionalDataLineIntoVector){
     EXPECT_EQ(result, expected);
 }
 
+TEST(PersonFormaterCsvTest, CreateStudentFromVector){
+    std::vector<std::string> fields{
+        "Adam",
+        "Smith",
+        "98031715344",
+        "Male",
+        "Holtenstraat 7",
+        "182699",
+        ""
+    };
+    auto result = PersonCsvFormatter::createPerson(fields);
+
+    EXPECT_EQ(result->name(), "Adam");
+    EXPECT_EQ(result->surname(), "Smith");
+    EXPECT_EQ(result->pesel(), PESEL{"98031715344"});
+    EXPECT_EQ(result->gender(), Gender::Male);
+    EXPECT_EQ(result->address(), "Holtenstraat 7");
+    EXPECT_EQ(result->index(), "182699");
+    EXPECT_EQ(result->getTrait<EmployeeRole>(), nullptr);
+}
+
+
+TEST(PersonFormaterCsvTest, CreateEmployeeFromVector){
+    std::vector<std::string> fields{
+        "Adam",
+        "Smith",
+        "98031715344",
+        "Male",
+        "Holtenstraat 7",
+        "",
+        "10000"
+    };
+    auto result = PersonCsvFormatter::createPerson(fields);
+
+    EXPECT_EQ(result->name(), "Adam");
+    EXPECT_EQ(result->surname(), "Smith");
+    EXPECT_EQ(result->pesel(), PESEL{"98031715344"});
+    EXPECT_EQ(result->gender(), Gender::Male);
+    EXPECT_EQ(result->address(), "Holtenstraat 7");
+    EXPECT_EQ(result->getTrait<StudentRole>(), nullptr);
+    EXPECT_EQ(result->salary(), 10000);
+}
+
+TEST(PersonFormaterCsvTest, CreatePersonFromVector){
+    std::vector<std::string> fields{
+        "Adam",
+        "Smith",
+        "98031715344",
+        "Male",
+        "Holtenstraat 7",
+        "",
+        ""
+    };
+    auto result = PersonCsvFormatter::createPerson(fields);
+
+    EXPECT_EQ(result->name(), "Adam");
+    EXPECT_EQ(result->surname(), "Smith");
+    EXPECT_EQ(result->pesel(), PESEL{"98031715344"});
+    EXPECT_EQ(result->gender(), Gender::Male);
+    EXPECT_EQ(result->address(), "Holtenstraat 7");
+    EXPECT_EQ(result->getTrait<StudentRole>(), nullptr);
+    EXPECT_EQ(result->getTrait<EmployeeRole>(), nullptr);
+}
+
+
+TEST(PersonFormaterCsvTest, ThrowWhenWrongSize){
+    std::vector<std::string> fields{
+        "Adam",
+        "Smith",
+        "98031715344",
+        
+        "Holtenstraat 7",
+        "",
+        ""
+    };
+    EXPECT_THROW(PersonCsvFormatter::createPerson(fields), std::logic_error);
+}
+TEST(PersonFormaterCsvTest, ThrowWhenMissingName){
+    std::vector<std::string> fields{
+        "",
+        "Smith",
+        "98031715344",
+        "Male",
+        "",
+        "",
+        ""
+    };
+
+    EXPECT_THROW(PersonCsvFormatter::createPerson(fields), std::logic_error);
+}
+
+TEST(PersonFormaterCsvTest, CreateStudentAndEmployee){
+    std::vector<std::string> fields{
+        "Adam",
+        "Smith",
+        "98031715344",
+        "Male",
+        "Holtenstraat 7",
+        "182699",
+        "10000"
+    };
+
+    auto result = PersonCsvFormatter::createPerson(fields);
+
+    EXPECT_NE(result->getTrait<StudentRole>(), nullptr);
+    EXPECT_NE(result->getTrait<EmployeeRole>(), nullptr);
+}
+
+
 
