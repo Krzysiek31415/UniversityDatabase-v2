@@ -1,9 +1,15 @@
 #include "PersonCsvFormatter.hpp"
 #include "../domain/Person.hpp"
+#include "domain/Person.hpp"
+#include "domain/StudentRole.hpp"
+#include "domain/EmployeeRole.hpp"
+
 #include <sstream>
 #include <optional>
 #include <iostream>
 #include <type_traits>
+#include <memory>
+#include <stdexcept>
 
 namespace{
     std::string genderToString(Gender gender){
@@ -56,4 +62,36 @@ std::vector<std::string> PersonCsvFormatter::deserialize(std::string& line){
         }
     }
     return data;
+}
+
+std::unique_ptr<Person> PersonCsvFormatter::createPerson(const std::vector<std::string>& fields){
+    std::unique_ptr<Person> person;
+    if(fields.size() == 7 
+         && !fields[0].empty() 
+         && !fields[1].empty() 
+         && !fields[2].empty())
+    {
+        person = std::make_unique<Person>(fields[0], fields[1], PESEL{fields[2]});
+        if(fields[3] == "Male")
+        {
+            person->setGender(Gender::Male);
+        }
+        else if(fields[3] == "Female")
+        {
+            person->setGender(Gender::Female);
+        }
+        
+        if(!fields[4].empty()){
+            person->setAddress(fields[4]);
+        }
+        if(!fields[5].empty()){
+            person->addRole(std::make_unique<StudentRole>(fields[5]));
+        }
+        if(!fields[6].empty()){
+            person->addRole(std::make_unique<EmployeeRole>(std::stod(fields[6])));
+        }
+    }else{
+        throw std::logic_error("invalid csv format to cerate Person");
+    }
+    return person;
 }
