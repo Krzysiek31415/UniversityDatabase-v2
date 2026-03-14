@@ -39,6 +39,7 @@ private:
     void showDatabase(const std::vector<const Person*>& persons) const;
 
     void saveDatabase();
+    void loadDatabaseFromFile();
 
     std::vector<const Person*> executeSort(SortField field, SortOrder order);
     std::pair<size_t, size_t> sortMenu();

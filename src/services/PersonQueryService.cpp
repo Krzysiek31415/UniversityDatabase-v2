@@ -76,6 +76,13 @@ std::vector<const Person*> PersonQueryService::sortByIndex(SortOrder order) cons
     }); 
 }
 
+void PersonQueryService::addPerson(std::unique_ptr<Person> person){
+    if(!repo_.findByPESEL(person->pesel())){
+        repo_.add(std::move(person));
+    }else{
+        throw std::logic_error("Error. Person with this pesel already in repository.");
+    }
+}
 
 void PersonQueryService::addStudent(
     const std::string& name,

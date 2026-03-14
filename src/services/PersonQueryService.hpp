@@ -46,6 +46,7 @@ public:
     void addEmployeeRole(const PESEL& pesel, double salary);
     void removeEmployeeRole(const PESEL& pesel);
     std::vector<const Person*> getAll();
+    void addPerson(std::unique_ptr<Person> person);
 
 private:
     IPersonRepository& repo_;

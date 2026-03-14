@@ -113,6 +113,7 @@ void ConsoleUI::registerCommands(){
     commands_["7"] = [this](){addEmployeeRole(); };
     commands_["8"] = [this](){removeEmployeeRole(); };
     commands_["9"] = [this](){saveDatabase();};
+    commands_["10"] = [this](){loadDatabaseFromFile();};
 }
 
 void ConsoleUI::run(){
@@ -153,6 +154,7 @@ void ConsoleUI::showMenu(){
     std::cout << "7. Add employee role\n";
     std::cout << "8. Remove employee role\n";
     std::cout << "9. Save database \n";
+    std::cout << "10. Load database from file \n";
 }
 
 std::pair<size_t, size_t> ConsoleUI::sortMenu(){
@@ -303,4 +305,9 @@ void ConsoleUI::removeEmployeeRole(){
 void ConsoleUI::saveDatabase(){
     storage_.save(service_.getAll(), "../data/persons.csv");
     std::cout << "Database saved\n";
+}
+
+void ConsoleUI::loadDatabaseFromFile(){
+    storage_.load(service_, "../data/persons.csv");
+    std::cout << "Database loaded\n";
 }
