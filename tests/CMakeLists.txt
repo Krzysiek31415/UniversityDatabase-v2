@@ -16,6 +16,7 @@ add_executable(UniversityTests
     PersonFormatterTest.cpp
     PersonQueryServiceTests.cpp
     PersonCsvFormatterTest.cpp
+    PersonStorageTest.cpp
 )
 target_compile_features(UniversityTests PRIVATE cxx_std_20)
 
